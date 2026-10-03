@@ -30,6 +30,15 @@
         {
           "backgroundColor": "#0F5C5E"
         }
+      ],
+      [
+        "expo-audio",
+        {
+          "enableBackgroundPlayback": false,
+          "enableBackgroundRecording": false,
+          "recordAudioAndroid": false,
+          "microphonePermission": false
+        }
       ]
     ],
     "experiments": {
