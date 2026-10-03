@@ -17,13 +17,13 @@ export function Button({ label, variant = 'primary', disabled, style, ...props }
       accessibilityRole="button"
       accessibilityState={{ disabled: Boolean(disabled) }}
       disabled={disabled}
-      style={({ pressed }) => [
+      style={(state) => [
         styles.button,
         { backgroundColor: colors.backgroundColor },
         variant === 'outline' && styles.outline,
         disabled && styles.disabled,
-        pressed && !disabled && styles.pressed,
-        typeof style === 'function' ? style({ pressed }) : style,
+        state.pressed && !disabled && styles.pressed,
+        typeof style === 'function' ? style(state) : style,
       ]}
       {...props}
     >
