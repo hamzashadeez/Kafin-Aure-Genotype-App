@@ -5,7 +5,6 @@ import {
 } from 'expo-audio';
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { AppState } from 'react-native';
 
 import { lessons } from '@/data/lessons';
 
@@ -44,7 +43,11 @@ export function AudioPlaybackProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true;
-    setAudioModeAsync({ playsInSilentMode: true }).catch((error: unknown) => {
+    setAudioModeAsync({
+      playsInSilentMode: true,
+      shouldPlayInBackground: true,
+      interruptionMode: 'doNotMix',
+    }).catch((error: unknown) => {
       if (active) setServiceError(error instanceof Error ? error.message : 'Ba a iya saita sauti ba.');
     });
     return () => {
@@ -59,15 +62,7 @@ export function AudioPlaybackProvider({ children }: { children: ReactNode }) {
     return () => subscription.remove();
   }, [player]);
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (nextState) => {
-      if (nextState !== 'active') {
-        pendingStartRef.current = false;
-        player.pause();
-      }
-    });
-    return () => subscription.remove();
-  }, [player]);
+  useEffect(() => () => player.clearLockScreenControls(), [player]);
 
   useEffect(() => {
     if (!lessonId) return;
@@ -112,6 +107,11 @@ export function AudioPlaybackProvider({ children }: { children: ReactNode }) {
 
     const isNewLesson = lessonIdRef.current !== nextLessonId;
     const shouldRestart = isNewLesson || hasFinished || audioStatus.didJustFinish;
+    player.setActiveForLockScreen(true, {
+      title: lesson.title,
+      artist: 'San Genotype',
+      albumTitle: 'Darussan sauti',
+    });
     if (isNewLesson) {
       player.pause();
       setHasFinished(false);

@@ -17,6 +17,7 @@ export default function RootLayout() {
         <Stack.Screen name="onboarding" />
         <Stack.Screen name="(main)" />
         <Stack.Screen name="lesson/[lessonId]" />
+        <Stack.Screen name="player/[lessonId]" />
       </Stack>
     </AudioPlaybackProvider>
   );

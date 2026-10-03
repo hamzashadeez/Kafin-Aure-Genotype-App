@@ -170,9 +170,8 @@ export default function LessonDetailScreen() {
 
       <View style={styles.bottomAction}>
         <PrimaryButton
-          label={playbackState === 'playing' ? 'Dakatar da sauraro' : playbackState === 'loading' ? 'Ana lodin sauti…' : playbackState === 'error' ? 'Sake gwadawa' : 'Saurari darasin'}
-          onPress={toggleAudio}
-          disabled={playbackState === 'loading'}
+          label="Buɗe mai kunna sauti"
+          onPress={() => router.push({ pathname: '/player/[lessonId]', params: { lessonId: lesson.id } })}
         />
       </View>
     </SafeAreaView>

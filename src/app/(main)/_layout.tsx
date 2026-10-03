@@ -1,6 +1,9 @@
 import { SymbolView } from 'expo-symbols';
 import { Tabs } from 'expo-router';
+import { BottomTabBar, type BottomTabBarProps } from 'expo-router/build/react-navigation/bottom-tabs';
+import { View } from 'react-native';
 
+import { MiniPlayer } from '@/components/audio/mini-player';
 import { Palette } from '@/constants/theme';
 
 const tabIcons = {
@@ -9,9 +12,19 @@ const tabIcons = {
   about: { ios: 'info.circle.fill', android: 'info', web: 'info' },
 } as const;
 
+function MainTabBar(props: BottomTabBarProps) {
+  return (
+    <View style={{ backgroundColor: Palette.background }}>
+      <MiniPlayer />
+      <BottomTabBar {...props} />
+    </View>
+  );
+}
+
 export default function MainTabsLayout() {
   return (
     <Tabs
+      tabBar={(props) => <MainTabBar {...props} />}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Palette.primary,
